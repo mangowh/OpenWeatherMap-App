@@ -1,26 +1,39 @@
-import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { provideRouter } from "@angular/router";
+import {
+  bootstrapDroplet,
+  bootstrapMoon,
+  bootstrapSun,
+  bootstrapWind,
+  bootstrapX,
+} from "@ng-icons/bootstrap-icons";
 import {
   provideIcons,
   provideNgIconsConfig,
   withExceptionLogger,
 } from "@ng-icons/core";
-import { routes } from "./app.routes";
-import * as BootstrapIcons from "@ng-icons/bootstrap-icons";
 import { AutocompleteLibModule } from "angular-ng-autocomplete";
+import { routes } from "./app.routes";
+import { httpErrorsInterceptor } from "./interceptors/http-errors.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([httpErrorsInterceptor])),
     provideNgIconsConfig(
       {
         size: "1.5em",
       },
       withExceptionLogger(),
     ),
-    provideIcons(BootstrapIcons), // TODO optimize
+    provideIcons({
+      bootstrapMoon,
+      bootstrapSun,
+      bootstrapDroplet,
+      bootstrapWind,
+      bootstrapX,
+    }),
     importProvidersFrom(AutocompleteLibModule),
   ],
 };

@@ -24,7 +24,7 @@ export class CitySearchBarComponent {
 
   search$ = new BehaviorSubject("");
   data$ = this.search$.pipe(
-    skipWhile((search) => search.length <= 0),
+    skipWhile((search) => search.length < 3),
     debounceTime(500),
     distinctUntilChanged(),
     switchMap((search) => this.weather.find(search)),
