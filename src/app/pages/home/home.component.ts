@@ -11,11 +11,12 @@ import {
 } from "rxjs";
 import { CitiesService } from "../../services/cities.service";
 import { WeatherService } from "../../services/weather.service";
+import { NgIconsModule } from "@ng-icons/core";
 
 @Component({
   selector: "app-home",
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgIconsModule],
   templateUrl: "./home.component.html",
   styleUrl: "./home.component.scss",
 })

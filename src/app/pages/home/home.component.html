@@ -14,8 +14,11 @@
   <button (click)="search()">Search</button>
 </div>
 
-<div *ngIf="currentWeather$ | async as currentWeather" class="flex border">
-  <div>
+<div
+  *ngIf="currentWeather$ | async as currentWeather"
+  class="flex flex-col border"
+>
+  <div class="flex-0">
     <div>
       {{ currentWeather.name }} at
       {{
@@ -25,33 +28,39 @@
         })
       }}
     </div>
-    <div>{{ currentWeather.main.temp }}°</div>
+  </div>
 
+  <div class="flex-1 flex">
+    <div class="flex-1">
+      <div class="font-bold text-2xl">{{ currentWeather.main.temp }}°</div>
+
+      <div>
+        Max: {{ currentWeather.main.temp_max }} - Min:
+        {{ currentWeather.main.temp_min }}
+      </div>
+
+      <div>
+        <ng-icon name="bootstrapDroplet"></ng-icon>
+        {{ currentWeather.main.humidity }}%
+      </div>
+
+      <div>
+        <ng-icon name="bootstrapWind"></ng-icon>
+
+        {{ currentWeather.wind.speed }}
+      </div>
+    </div>
     <div>
+      <img
+        [src]="
+          'https://openweathermap.org/img/wn/' +
+          currentWeather.weather[0].icon +
+          '.png'
+        "
+      />
+
       {{ currentWeather.weather[0].description }}
     </div>
-
-    <div>
-      Max: {{ currentWeather.main.temp_max }} - Min:
-      {{ currentWeather.main.temp_min }}
-    </div>
-
-    <div>
-      {{ currentWeather.main.humidity }}%
-    </div>
-
-    <div>
-      {{ currentWeather.wind.speed }}
-    </div>
-  </div>
-  <div>
-    <img
-      [src]="
-        'https://openweathermap.org/img/wn/' +
-        currentWeather.weather[0].icon +
-        '.png'
-      "
-    />
   </div>
 </div>
 
