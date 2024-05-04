@@ -5,13 +5,14 @@ import { NgIconsModule } from "@ng-icons/core";
 import { BehaviorSubject, combineLatest, map, of, switchMap } from "rxjs";
 import { CitySearchBarComponent } from "../../components/city-search-bar/city-search-bar.component";
 import { WeatherService } from "../../services/weather.service";
+import { DateToLocalePipe } from "../../pipes/date-to-locale.pipe";
 
 @Component({
-  selector: "app-home",
-  standalone: true,
-  templateUrl: "./home.component.html",
-  styleUrl: "./home.component.scss",
-  imports: [CommonModule, FormsModule, NgIconsModule, CitySearchBarComponent],
+    selector: "app-home",
+    standalone: true,
+    templateUrl: "./home.component.html",
+    styleUrl: "./home.component.scss",
+    imports: [CommonModule, FormsModule, NgIconsModule, CitySearchBarComponent, DateToLocalePipe]
 })
 export class HomeComponent {
   currentDate = new Date();

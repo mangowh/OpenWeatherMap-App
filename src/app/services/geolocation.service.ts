@@ -5,7 +5,7 @@ import { BehaviorSubject, from, tap } from "rxjs";
   providedIn: "root",
 })
 export class GeolocationService {
-  currentPosition$ = this.getCurrentPosition().pipe(tap(console.log));
+  currentPosition$ = this.getCurrentPosition()
 
   private getCurrentPosition(options?: PositionOptions) {
     return from(

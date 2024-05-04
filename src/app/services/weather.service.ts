@@ -46,8 +46,8 @@ export class WeatherService {
     }
 
     return this.http
-      .get<ForecastResponse>(this.baseUrl + "/forecast", {
-        params: { lat, lon, lang, appId: this.apiKey },
+      .get<ForecastResponse>(this.baseUrl + "/forecast/daily", {
+        params: { lat, lon, units: ["metric"], lang, appId: this.apiKey },
         responseType: "json",
       })
       .pipe(tap((res) => this.cache.set("forecast", res)));

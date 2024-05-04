@@ -55,15 +55,29 @@
 <div *ngIf="currentForecastGroupedByDays$ | async as currentForecast">
   Previsioni meteo - {{ (currentForecast$ | async)?.city?.name }}
 
-  <div *ngFor="let dayEntries of currentForecast">
-    {{ dayEntries[0] }}
-    <div *ngFor="let entry of dayEntries[1]">
-      {{ entry.dt_txt }} :
-      <img
-        [src]="
-          'https://openweathermap.org/img/wn/' + entry.weather[0].icon + '.png'
-        "
-      />
+  <div>
+    <div
+      *ngFor="let dayEntries of currentForecast"
+      class="w-full flex justify-end gap-2 border-b-2"
+    >
+      <div class="flex-0 w-4">
+        {{ dayEntries[0] | dateToLocale }}
+      </div>
+
+      <div
+        *ngFor="let entry of dayEntries[1]"
+        class="flex justify-center items-center"
+      >
+        <div>{{ entry.dt_txt }} :</div>
+        <img
+          [alt]="entry.weather[0].description | titlecase"
+          [src]="
+            'https://openweathermap.org/img/wn/' +
+            entry.weather[0].icon +
+            '.png'
+          "
+        />
+      </div>
     </div>
   </div>
 </div>
