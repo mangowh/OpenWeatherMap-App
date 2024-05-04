@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { switchMap } from "rxjs";
+import { switchMap, tap } from "rxjs";
 import { environment } from "../../environments/environment";
 import { GeolocationService } from "./geolocation.service";
 
@@ -24,13 +24,28 @@ export class WeatherService {
     });
   }
 
+  getForecast(lat: number, lon: number) {
+    return this.http
+      .get<ForecastResponse>(this.baseUrl + "/forecast", {
+        params: { lat, lon, appId: this.apiKey },
+        responseType: "json",
+      })
+      .pipe(tap(console.log));
+  }
+
   getCurrentWeatherData() {
-    return this.geolocation
-      .getCurrentPosition()
-      .pipe(
-        switchMap(({ coords }) =>
-          this.getWeatherData(coords.latitude, coords.longitude)
-        )
-      );
+    return this.geolocation.currentPosition$.pipe(
+      switchMap(({ coords }) =>
+        this.getWeatherData(coords.latitude, coords.longitude)
+      )
+    );
+  }
+
+  getCurrentFiveDaysForecast() {
+    return this.geolocation.currentPosition$.pipe(
+      switchMap(({ coords }) =>
+        this.getForecast(coords.latitude, coords.longitude)
+      )
+    );
   }
 }

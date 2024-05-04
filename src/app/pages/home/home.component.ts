@@ -21,6 +21,7 @@ import { WeatherService } from "../../services/weather.service";
 })
 export class HomeComponent {
   currentWeather$ = this.weather.getCurrentWeatherData();
+  currentForecast$ = this.weather.getCurrentFiveDaysForecast();
   cities$ = this.citiesService.getCities();
 
   inputValue = signal("");
