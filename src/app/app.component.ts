@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {
     this.darkModeEnabled$.subscribe((darkModeEnabled) => {
       if (darkModeEnabled) {
@@ -29,11 +29,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const darkModePreference = window.matchMedia(
-      "(prefers-color-scheme: dark)"
+      "(prefers-color-scheme: dark)",
     );
 
     darkModePreference.addEventListener("change", (e) =>
-      this.darkModeEnabled$.next(e.matches)
+      this.darkModeEnabled$.next(e.matches),
     );
 
     if (

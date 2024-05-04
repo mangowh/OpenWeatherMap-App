@@ -1,0 +1,28 @@
+<!-- <input
+  list="countries"
+  [(ngModel)]="inputValue"
+  placeholder="Insert your location here"
+  (keyup.enter)="citySelected.emit(inputValue())"
+/>
+<datalist id="countries">
+  <option *ngFor="let item of cities$ | async" [value]="item.city">
+    {{ item.lat }} - {{ item.lng }}
+  </option>
+</datalist> -->
+
+<ng-autocomplete
+  [data]="(cities$ | async) ?? []"
+  [searchKeyword]="'city'"
+  [itemTemplate]="itemTemplate"
+  [notFoundTemplate]="notFoundTemplate"
+  (selected)="citySelected.emit($event)"
+>
+</ng-autocomplete>
+
+<ng-template #itemTemplate let-item>
+  <span [innerHTML]="item.city"></span>
+</ng-template>
+
+<ng-template #notFoundTemplate let-notFound>
+  <div [innerHTML]="notFound"></div>
+</ng-template>

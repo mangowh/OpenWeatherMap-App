@@ -1,15 +1,7 @@
 <div>
-  <input
-    list="countries"
-    [(ngModel)]="inputValue"
-    placeholder="Insert your location here"
-    (keyup.enter)="searchText$.next(inputValue())"
-  />
-  <datalist id="countries">
-    <option *ngFor="let item of cities$ | async" [value]="item.city">
-      {{ item.lat }} - {{ item.lng }}
-    </option>
-  </datalist>
+  <app-city-search-bar
+    (citySelected)="searchText$.next($event.city)"
+  ></app-city-search-bar>
 </div>
 
 <div *ngIf="selectedWeather$ | async as weather" class="flex flex-col border">
@@ -30,8 +22,7 @@
       <div class="font-bold text-2xl">{{ weather.main.temp }}°</div>
 
       <div>
-        Max: {{ weather.main.temp_max }}° - Min:
-        {{ weather.main.temp_min }}°
+        Max: {{ weather.main.temp_max }}° - Min: {{ weather.main.temp_min }}°
       </div>
 
       <div>

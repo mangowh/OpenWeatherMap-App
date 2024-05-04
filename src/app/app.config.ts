@@ -1,5 +1,5 @@
 import { provideHttpClient } from "@angular/common/http";
-import { ApplicationConfig } from "@angular/core";
+import { ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { provideRouter } from "@angular/router";
 import {
   provideIcons,
@@ -8,6 +8,7 @@ import {
 } from "@ng-icons/core";
 import { routes } from "./app.routes";
 import * as BootstrapIcons from "@ng-icons/bootstrap-icons";
+import { AutocompleteLibModule } from "angular-ng-autocomplete";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +21,6 @@ export const appConfig: ApplicationConfig = {
       withExceptionLogger()
     ),
     provideIcons(BootstrapIcons), // TODO optimize
+    importProvidersFrom(AutocompleteLibModule),
   ],
 };
