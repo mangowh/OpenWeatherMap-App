@@ -1,4 +1,9 @@
-<input list="countries" [(ngModel)]="inputValue" (keyup.enter)="search()" />
+<input
+  list="countries"
+  [(ngModel)]="inputValue"
+  placeholder="Insert your location here"
+  (keyup.enter)="search()"
+/>
 <datalist id="countries">
   <option *ngFor="let item of cities$ | async" [value]="item.city">
     {{ item.lat }} - {{ item.lng }}
@@ -7,8 +12,12 @@
 
 <button (click)="search()">Search</button>
 
-<!-- <div>
+<div *ngIf="currentForecast$ | async as currentForecast">
   data:
 
   {{ currentForecast$ | async | json }}
-</div> -->
+
+  <div *ngFor="let data of currentForecast.list">
+    {{ data }}
+  </div>
+</div>

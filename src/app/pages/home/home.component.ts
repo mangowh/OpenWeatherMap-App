@@ -20,9 +20,10 @@ import { WeatherService } from "../../services/weather.service";
   styleUrl: "./home.component.scss",
 })
 export class HomeComponent {
+  cities$ = this.citiesService.getCities();
+  
   currentWeather$ = this.weather.getCurrentWeatherData();
   currentForecast$ = this.weather.getCurrentFiveDaysForecast();
-  cities$ = this.citiesService.getCities();
 
   inputValue = signal("");
 
