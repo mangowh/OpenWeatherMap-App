@@ -27,7 +27,7 @@ export class CitySearchBarComponent {
     skipWhile((search) => search.length <= 0),
     debounceTime(500),
     distinctUntilChanged(),
-    switchMap((search) => this.weather.find(search))
+    switchMap((search) => this.weather.find(search)),
   );
 
   constructor(private weather: WeatherService) {}

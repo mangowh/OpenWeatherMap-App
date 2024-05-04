@@ -58,25 +58,33 @@
   <div>
     <div
       *ngFor="let dayEntries of currentForecast"
-      class="w-full flex justify-end gap-2 border-b-2"
+      class="w-full flex-col gap-4 border-b-2"
     >
-      <div class="flex-0 w-4">
-        {{ dayEntries[0] | dateToLocale }}
+      <div class="flex-0 flex">
+        <div class="flex-0 w-4">
+          {{ dayEntries[0] | dateToLocale }}
+        </div>
+
+        <div class="flex-1 flex flex-wrap">
+          <div
+            *ngFor="let entry of dayEntries[1]"
+            class="flex justify-center items-center"
+          >
+            <div>{{ entry.dt_txt }} :</div>
+            <img
+              [alt]="entry.weather[0].description | titlecase"
+              [src]="
+                'https://openweathermap.org/img/wn/' +
+                entry.weather[0].icon +
+                '.png'
+              "
+            />
+          </div>
+        </div>
       </div>
 
-      <div
-        *ngFor="let entry of dayEntries[1]"
-        class="flex justify-center items-center"
-      >
-        <div>{{ entry.dt_txt }} :</div>
-        <img
-          [alt]="entry.weather[0].description | titlecase"
-          [src]="
-            'https://openweathermap.org/img/wn/' +
-            entry.weather[0].icon +
-            '.png'
-          "
-        />
+      <div class="flex-1">
+        <app-line-chart [data]="dayEntries[1]"></app-line-chart>
       </div>
     </div>
   </div>

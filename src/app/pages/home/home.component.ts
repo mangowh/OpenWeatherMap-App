@@ -6,13 +6,21 @@ import { BehaviorSubject, combineLatest, map, of, switchMap } from "rxjs";
 import { CitySearchBarComponent } from "../../components/city-search-bar/city-search-bar.component";
 import { WeatherService } from "../../services/weather.service";
 import { DateToLocalePipe } from "../../pipes/date-to-locale.pipe";
+import { LineChartComponent } from "../../components/line-chart/line-chart.component";
 
 @Component({
-    selector: "app-home",
-    standalone: true,
-    templateUrl: "./home.component.html",
-    styleUrl: "./home.component.scss",
-    imports: [CommonModule, FormsModule, NgIconsModule, CitySearchBarComponent, DateToLocalePipe]
+  selector: "app-home",
+  standalone: true,
+  templateUrl: "./home.component.html",
+  styleUrl: "./home.component.scss",
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgIconsModule,
+    CitySearchBarComponent,
+    DateToLocalePipe,
+    LineChartComponent,
+  ],
 })
 export class HomeComponent {
   currentDate = new Date();
@@ -26,16 +34,16 @@ export class HomeComponent {
     switchMap((city) =>
       city
         ? this.weather.getWeatherData(city!.coord.lat, city!.coord.lon)
-        : of(null)
-    )
+        : of(null),
+    ),
   );
 
   searchedForecast$ = this.searchedCity$.pipe(
     switchMap((city) =>
       city
         ? this.weather.getForecast(city!.coord.lat, city!.coord.lon)
-        : of(null)
-    )
+        : of(null),
+    ),
   );
 
   selectedWeather$ = combineLatest([
@@ -43,8 +51,8 @@ export class HomeComponent {
     this.searchedWeather$,
   ]).pipe(
     map(([currentWeather, searchedWeather]) =>
-      searchedWeather ? searchedWeather : currentWeather
-    )
+      searchedWeather ? searchedWeather : currentWeather,
+    ),
   );
 
   selectedForecast$ = combineLatest([
@@ -68,10 +76,10 @@ export class HomeComponent {
 
           return groups;
         },
-        {} as { [key: string]: (List & { time: string })[] }
+        {} as { [key: string]: (List & { time: string })[] },
       );
     }),
-    map((res) => Object.entries(res))
+    map((res) => Object.entries(res)),
   );
 
   constructor(private weather: WeatherService) {}
