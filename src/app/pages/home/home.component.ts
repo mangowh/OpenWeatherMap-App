@@ -21,9 +21,33 @@ import { WeatherService } from "../../services/weather.service";
 })
 export class HomeComponent {
   cities$ = this.citiesService.getCities();
-  
+
   currentWeather$ = this.weather.getCurrentWeatherData();
   currentForecast$ = this.weather.getCurrentFiveDaysForecast();
+
+  currentDate = new Date();
+
+  currentForecastGroupedByDays$ = this.currentForecast$.pipe(
+    map((currentForecast) => {
+      const list = currentForecast.list;
+
+      return list.reduce(
+        (groups, item) => {
+          const [date, time] = item.dt_txt.split(" ");
+
+          if (!groups[date]) {
+            groups[date] = [];
+          }
+
+          groups[date].push({ ...item, time });
+
+          return groups;
+        },
+        {} as { [key: string]: (List & { time: string })[] }
+      );
+    }),
+    map((res) => Object.entries(res))
+  );
 
   inputValue = signal("");
 
@@ -36,13 +60,13 @@ export class HomeComponent {
     switchMap((search) => this.citiesService.getCities(search)),
     map((res) => res[0]),
     switchMap((city) =>
-      this.weather.getWeatherData(parseFloat(city.lat), parseFloat(city.lng)),
-    ),
+      this.weather.getWeatherData(parseFloat(city.lat), parseFloat(city.lng))
+    )
   );
 
   constructor(
     private weather: WeatherService,
-    private citiesService: CitiesService,
+    private citiesService: CitiesService
   ) {}
 
   search() {

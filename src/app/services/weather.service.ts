@@ -29,7 +29,7 @@ export class WeatherService {
 
     return this.http
       .get<WeatherResponse>(this.baseUrl + "/weather", {
-        params: { lat, lon, appId: this.apiKey },
+        params: { lat, lon, units: ["metric"], appId: this.apiKey },
         responseType: "json",
       })
       .pipe(tap((res) => this.cache.set("weather", res)));

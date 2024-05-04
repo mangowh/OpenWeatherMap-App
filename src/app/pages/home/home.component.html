@@ -1,23 +1,72 @@
-<input
-  list="countries"
-  [(ngModel)]="inputValue"
-  placeholder="Insert your location here"
-  (keyup.enter)="search()"
-/>
-<datalist id="countries">
-  <option *ngFor="let item of cities$ | async" [value]="item.city">
-    {{ item.lat }} - {{ item.lng }}
-  </option>
-</datalist>
+<div>
+  <input
+    list="countries"
+    [(ngModel)]="inputValue"
+    placeholder="Insert your location here"
+    (keyup.enter)="search()"
+  />
+  <datalist id="countries">
+    <option *ngFor="let item of cities$ | async" [value]="item.city">
+      {{ item.lat }} - {{ item.lng }}
+    </option>
+  </datalist>
 
-<button (click)="search()">Search</button>
+  <button (click)="search()">Search</button>
+</div>
 
-<div *ngIf="currentForecast$ | async as currentForecast">
-  data:
+<div *ngIf="currentWeather$ | async as currentWeather" class="flex border">
+  <div>
+    <div>
+      {{ currentWeather.name }} at
+      {{
+        currentDate.toLocaleString("en-US", {
+          timeZoneName: "short",
+          hour12: false
+        })
+      }}
+    </div>
+    <div>{{ currentWeather.main.temp }}°</div>
 
-  {{ currentForecast$ | async | json }}
+    <div>
+      {{ currentWeather.weather[0].description }}
+    </div>
 
-  <div *ngFor="let data of currentForecast.list">
-    {{ data }}
+    <div>
+      Max: {{ currentWeather.main.temp_max }} - Min:
+      {{ currentWeather.main.temp_min }}
+    </div>
+
+    <div>
+      {{ currentWeather.main.humidity }}%
+    </div>
+
+    <div>
+      {{ currentWeather.wind.speed }}
+    </div>
+  </div>
+  <div>
+    <img
+      [src]="
+        'https://openweathermap.org/img/wn/' +
+        currentWeather.weather[0].icon +
+        '.png'
+      "
+    />
+  </div>
+</div>
+
+<div *ngIf="currentForecastGroupedByDays$ | async as currentForecast">
+  Forecast for {{ (currentForecast$ | async)?.city?.name }}
+
+  <div *ngFor="let dayEntries of currentForecast">
+    {{ dayEntries[0] }}
+    <div *ngFor="let entry of dayEntries[1]">
+      {{ entry.dt_txt }} :
+      <img
+        [src]="
+          'https://openweathermap.org/img/wn/' + entry.weather[0].icon + '.png'
+        "
+      />
+    </div>
   </div>
 </div>
