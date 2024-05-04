@@ -3,11 +3,13 @@ import { Component, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
   BehaviorSubject,
+  combineLatest,
   debounceTime,
   distinctUntilChanged,
   map,
   skip,
   switchMap,
+  tap,
 } from "rxjs";
 import { CitiesService } from "../../services/cities.service";
 import { WeatherService } from "../../services/weather.service";
@@ -21,12 +23,33 @@ import { NgIconsModule } from "@ng-icons/core";
   styleUrl: "./home.component.scss",
 })
 export class HomeComponent {
+  currentDate = new Date();
+
   cities$ = this.citiesService.getCities();
 
   currentWeather$ = this.weather.getCurrentWeatherData();
   currentForecast$ = this.weather.getCurrentFiveDaysForecast();
 
-  currentDate = new Date();
+  searchText$ = new BehaviorSubject<string>("");
+
+  searchedWeather$ = this.searchText$.pipe(
+    debounceTime(500),
+    distinctUntilChanged(),
+    switchMap((search) => this.citiesService.getCities(search)),
+    map((res) => res[0]),
+    switchMap((city) =>
+      this.weather.getWeatherData(parseFloat(city.lat), parseFloat(city.lng))
+    )
+  );
+
+  selectedWeather$ = combineLatest([
+    this.currentWeather$,
+    this.searchedWeather$,
+  ]).pipe(
+    map(([currentWeather, searchedWeather]) =>
+      searchedWeather ? searchedWeather : currentWeather
+    )
+  );
 
   currentForecastGroupedByDays$ = this.currentForecast$.pipe(
     map((currentForecast) => {
@@ -52,25 +75,8 @@ export class HomeComponent {
 
   inputValue = signal("");
 
-  private searchText$ = new BehaviorSubject<string>("");
-
-  data$ = this.searchText$.pipe(
-    skip(1),
-    debounceTime(500),
-    distinctUntilChanged(),
-    switchMap((search) => this.citiesService.getCities(search)),
-    map((res) => res[0]),
-    switchMap((city) =>
-      this.weather.getWeatherData(parseFloat(city.lat), parseFloat(city.lng))
-    )
-  );
-
   constructor(
     private weather: WeatherService,
     private citiesService: CitiesService
   ) {}
-
-  search() {
-    this.searchText$.next(this.inputValue());
-  }
 }

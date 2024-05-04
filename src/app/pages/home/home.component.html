@@ -3,24 +3,19 @@
     list="countries"
     [(ngModel)]="inputValue"
     placeholder="Insert your location here"
-    (keyup.enter)="search()"
+    (keyup.enter)="searchText$.next(inputValue())"
   />
   <datalist id="countries">
     <option *ngFor="let item of cities$ | async" [value]="item.city">
       {{ item.lat }} - {{ item.lng }}
     </option>
   </datalist>
-
-  <button (click)="search()">Search</button>
 </div>
 
-<div
-  *ngIf="currentWeather$ | async as currentWeather"
-  class="flex flex-col border"
->
+<div *ngIf="selectedWeather$ | async as weather" class="flex flex-col border">
   <div class="flex-0">
     <div>
-      {{ currentWeather.name }} at
+      {{ weather.name }} at
       {{
         currentDate.toLocaleString("en-US", {
           timeZoneName: "short",
@@ -32,34 +27,34 @@
 
   <div class="flex-1 flex">
     <div class="flex-1">
-      <div class="font-bold text-2xl">{{ currentWeather.main.temp }}°</div>
+      <div class="font-bold text-2xl">{{ weather.main.temp }}°</div>
 
       <div>
-        Max: {{ currentWeather.main.temp_max }} - Min:
-        {{ currentWeather.main.temp_min }}
+        Max: {{ weather.main.temp_max }}° - Min:
+        {{ weather.main.temp_min }}°
       </div>
 
       <div>
         <ng-icon name="bootstrapDroplet"></ng-icon>
-        {{ currentWeather.main.humidity }}%
+        {{ weather.main.humidity }}%
       </div>
 
       <div>
         <ng-icon name="bootstrapWind"></ng-icon>
 
-        {{ currentWeather.wind.speed }}
+        {{ weather.wind.speed }}
       </div>
     </div>
     <div>
       <img
         [src]="
           'https://openweathermap.org/img/wn/' +
-          currentWeather.weather[0].icon +
+          weather.weather[0].icon +
           '.png'
         "
       />
 
-      {{ currentWeather.weather[0].description }}
+      {{ weather.weather[0].description }}
     </div>
   </div>
 </div>

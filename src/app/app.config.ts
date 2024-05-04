@@ -7,7 +7,6 @@ import {
   withExceptionLogger,
 } from "@ng-icons/core";
 import { routes } from "./app.routes";
-import * as HeroIcons from "@ng-icons/heroicons/outline";
 import * as BootstrapIcons from "@ng-icons/bootstrap-icons";
 
 export const appConfig: ApplicationConfig = {
@@ -20,7 +19,6 @@ export const appConfig: ApplicationConfig = {
       },
       withExceptionLogger()
     ),
-    provideIcons(HeroIcons),
-    provideIcons(BootstrapIcons),
+    provideIcons(BootstrapIcons), // TODO optimize
   ],
 };
