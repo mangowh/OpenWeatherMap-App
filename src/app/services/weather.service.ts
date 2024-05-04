@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { of, switchMap, tap } from "rxjs";
+import { switchMap } from "rxjs";
 import { environment } from "../../environments/environment";
 import { GeolocationService } from "./geolocation.service";
 
@@ -20,6 +20,7 @@ export class WeatherService {
   getWeatherData(lat: number, lon: number) {
     return this.http.get<WeatherResponse>(this.baseUrl + "/weather", {
       params: { lat, lon, appId: this.apiKey },
+      responseType: "json",
     });
   }
 

@@ -1,7 +1,6 @@
 import {
   provideHttpClient,
-  withInterceptors,
-  withInterceptorsFromDi,
+  withInterceptors
 } from "@angular/common/http";
 import { ApplicationConfig } from "@angular/core";
 import { provideRouter } from "@angular/router";
@@ -12,7 +11,7 @@ import { cacheInterceptor } from "./interceptors/cache.interceptor";
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([cacheInterceptor])),
+    provideHttpClient(withInterceptors([/* cacheInterceptor */])),
     provideNgIconsConfig({
       size: "1.5em",
     }),

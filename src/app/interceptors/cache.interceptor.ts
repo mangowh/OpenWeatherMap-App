@@ -1,18 +1,9 @@
-import {
-  HttpEvent,
-  HttpHandlerFn,
-  HttpInterceptorFn,
-  HttpRequest,
-  HttpResponse,
-} from "@angular/common/http";
+import { HttpInterceptorFn, HttpResponse } from "@angular/common/http";
 import { inject } from "@angular/core";
-import { Observable, of, tap } from "rxjs";
+import { of, tap } from "rxjs";
 import { CacheService } from "../services/cache.service";
 
-export const cacheInterceptor: HttpInterceptorFn = (
-  req: HttpRequest<unknown>,
-  next: HttpHandlerFn
-): Observable<HttpEvent<unknown>> => {
+export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
   const cache = inject(CacheService);
 
   // Only cache GET requests
@@ -32,7 +23,7 @@ export const cacheInterceptor: HttpInterceptorFn = (
     tap((event) => {
       if (event instanceof HttpResponse) {
         // Cache the new response
-        cache.set(req.url, event);
+        cache.set(req.url, JSON.stringify(event.clone()));
       }
     })
   );

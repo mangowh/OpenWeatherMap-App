@@ -1,17 +1,16 @@
 <p>home works!</p>
 
-<input list="countries" (keyup)="search($event)" />
+<input list="countries" [(ngModel)]="inputValue" (keyup.enter)="search()" />
 <datalist id="countries">
-  <option *ngFor="let city of cities$ | async">{{ city.name }}</option>
+  <option *ngFor="let item of cities$ | async" [value]="item.city">
+    {{ item.lat }} - {{ item.lng }}
+  </option>
 </datalist>
 
-<div>
-  SearchList :
-  {{ searchList$ | async | json }}
-</div>
+<button (click)="search()">Search</button>
 
 <div>
-  currentWeather:
+  data:
 
-  {{ currentWeather$ | async | json }}
+  {{ data$| async | json }}
 </div>
