@@ -1,0 +1,17 @@
+<p>home works!</p>
+
+<input list="countries" (keyup)="search($event)" />
+<datalist id="countries">
+  <option *ngFor="let city of cities$ | async">{{ city.name }}</option>
+</datalist>
+
+<div>
+  SearchList :
+  {{ searchList$ | async | json }}
+</div>
+
+<div>
+  currentWeather:
+
+  {{ currentWeather$ | async | json }}
+</div>

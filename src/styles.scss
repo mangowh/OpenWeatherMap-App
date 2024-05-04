@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+
+.tooltip {
+  @apply hidden absolute;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply block z-50;
+}
+
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
