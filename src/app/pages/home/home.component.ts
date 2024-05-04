@@ -35,13 +35,13 @@ export class HomeComponent {
     switchMap((search) => this.citiesService.getCities(search)),
     map((res) => res[0]),
     switchMap((city) =>
-      this.weather.getWeatherData(parseFloat(city.lat), parseFloat(city.lng))
-    )
+      this.weather.getWeatherData(parseFloat(city.lat), parseFloat(city.lng)),
+    ),
   );
 
   constructor(
     private weather: WeatherService,
-    private citiesService: CitiesService
+    private citiesService: CitiesService,
   ) {}
 
   search() {

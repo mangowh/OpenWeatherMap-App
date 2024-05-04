@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration production --host=0.0.0.0 --disable-host-check",
+    "start": "ng serve --configuration development --host=0.0.0.0 --disable-host-check",
+    "start:prod": "ng serve --configuration production --host=0.0.0.0 --disable-host-check",
     "build": "ng build --configuration production",
     "format": "prettier --write ."
   },

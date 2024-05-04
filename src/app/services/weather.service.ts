@@ -14,7 +14,7 @@ export class WeatherService {
 
   constructor(
     private http: HttpClient,
-    private geolocation: GeolocationService
+    private geolocation: GeolocationService,
   ) {}
 
   getWeatherData(lat: number, lon: number) {
@@ -36,16 +36,16 @@ export class WeatherService {
   getCurrentWeatherData() {
     return this.geolocation.currentPosition$.pipe(
       switchMap(({ coords }) =>
-        this.getWeatherData(coords.latitude, coords.longitude)
-      )
+        this.getWeatherData(coords.latitude, coords.longitude),
+      ),
     );
   }
 
   getCurrentFiveDaysForecast() {
     return this.geolocation.currentPosition$.pipe(
       switchMap(({ coords }) =>
-        this.getForecast(coords.latitude, coords.longitude)
-      )
+        this.getForecast(coords.latitude, coords.longitude),
+      ),
     );
   }
 }

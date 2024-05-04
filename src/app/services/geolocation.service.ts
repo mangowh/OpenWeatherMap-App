@@ -11,7 +11,7 @@ export class GeolocationService {
     return from(
       new Promise<GeolocationPosition>((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, options);
-      })
+      }),
     );
   }
 }

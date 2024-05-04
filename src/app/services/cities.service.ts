@@ -42,15 +42,15 @@ export class CitiesService {
             return 1;
           }
           return 0;
-        })
+        }),
       ),
       map((data) =>
         namePrefix
           ? data.filter((item) =>
-              item.city.toLowerCase().startsWith(namePrefix.toLowerCase())
+              item.city.toLowerCase().startsWith(namePrefix.toLowerCase()),
             )
-          : data
-      )
+          : data,
+      ),
     );
   }
 }
