@@ -2,6 +2,7 @@ import { CommonModule, DOCUMENT } from "@angular/common";
 import { Component, Inject, OnInit, Renderer2 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { NgIconsModule } from "@ng-icons/core";
 import { BehaviorSubject } from "rxjs";
 
 @Component({
@@ -9,14 +10,14 @@ import { BehaviorSubject } from "rxjs";
   standalone: true,
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, NgIconsModule],
 })
 export class AppComponent implements OnInit {
   darkModeEnabled$ = new BehaviorSubject(false);
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2,
+    private renderer: Renderer2
   ) {
     this.darkModeEnabled$.subscribe((darkModeEnabled) => {
       if (darkModeEnabled) {
@@ -29,11 +30,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const darkModePreference = window.matchMedia(
-      "(prefers-color-scheme: dark)",
+      "(prefers-color-scheme: dark)"
     );
 
     darkModePreference.addEventListener("change", (e) =>
-      this.darkModeEnabled$.next(e.matches),
+      this.darkModeEnabled$.next(e.matches)
     );
 
     if (
@@ -44,5 +45,9 @@ export class AppComponent implements OnInit {
     } else {
       this.darkModeEnabled$.next(false);
     }
+  }
+
+  toggleDarkMode() {
+    this.darkModeEnabled$.next(!this.darkModeEnabled$.value);
   }
 }

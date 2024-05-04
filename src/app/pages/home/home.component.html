@@ -4,12 +4,15 @@
   ></app-city-search-bar>
 </div>
 
-<div *ngIf="selectedWeather$ | async as weather" class="flex flex-col border">
-  <div class="flex-0">
+<div
+  *ngIf="selectedWeather$ | async as weather"
+  class="flex flex-col border mt-4 rounded-lg overflow-hidden shadow-sm bg-blue-300 text-white"
+>
+  <div class="flex-0 p-2 bg-slate-700 bg-opacity-90">
     <div>
-      {{ weather.name }} at
+      <span class="font-bold">{{ weather.name }}</span> alle
       {{
-        currentDate.toLocaleString("en-US", {
+        currentDate.toLocaleTimeString("it", {
           timeZoneName: "short",
           hour12: false
         })
@@ -17,9 +20,9 @@
     </div>
   </div>
 
-  <div class="flex-1 flex">
+  <div class="flex-1 flex p-2">
     <div class="flex-1">
-      <div class="font-bold text-2xl">{{ weather.main.temp }}°</div>
+      <div class="font-bold text-4xl">{{ weather.main.temp }}°</div>
 
       <div>
         Max: {{ weather.main.temp_max }}° - Min: {{ weather.main.temp_min }}°
@@ -51,7 +54,7 @@
 </div>
 
 <div *ngIf="currentForecastGroupedByDays$ | async as currentForecast">
-  Forecast for {{ (currentForecast$ | async)?.city?.name }}
+  Previsioni meteo - {{ (currentForecast$ | async)?.city?.name }}
 
   <div *ngFor="let dayEntries of currentForecast">
     {{ dayEntries[0] }}

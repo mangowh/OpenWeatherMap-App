@@ -13,13 +13,15 @@ export class WeatherService {
 
   private baseUrl = "https://api.openweathermap.org/data/2.5";
 
+  defaultLang = "it";
+
   constructor(
     private http: HttpClient,
     private cache: CacheService,
-    private geolocation: GeolocationService,
+    private geolocation: GeolocationService
   ) {}
 
-  getWeatherData(lat: number, lon: number) {
+  getWeatherData(lat: number, lon: number, lang: string = this.defaultLang) {
     if (isDevMode()) {
       const found = this.cache.get<WeatherResponse>("weather");
       if (found) {
@@ -29,13 +31,13 @@ export class WeatherService {
 
     return this.http
       .get<WeatherResponse>(this.baseUrl + "/weather", {
-        params: { lat, lon, units: ["metric"], appId: this.apiKey },
+        params: { lat, lon, units: ["metric"], lang, appId: this.apiKey },
         responseType: "json",
       })
       .pipe(tap((res) => this.cache.set("weather", res)));
   }
 
-  getForecast(lat: number, lon: number) {
+  getForecast(lat: number, lon: number, lang: string = this.defaultLang) {
     if (isDevMode()) {
       const found = this.cache.get<ForecastResponse>("forecast");
       if (found) {
@@ -45,7 +47,7 @@ export class WeatherService {
 
     return this.http
       .get<ForecastResponse>(this.baseUrl + "/forecast", {
-        params: { lat, lon, appId: this.apiKey },
+        params: { lat, lon, lang, appId: this.apiKey },
         responseType: "json",
       })
       .pipe(tap((res) => this.cache.set("forecast", res)));
@@ -54,16 +56,16 @@ export class WeatherService {
   getCurrentWeatherData() {
     return this.geolocation.currentPosition$.pipe(
       switchMap(({ coords }) =>
-        this.getWeatherData(coords.latitude, coords.longitude),
-      ),
+        this.getWeatherData(coords.latitude, coords.longitude)
+      )
     );
   }
 
   getCurrentFiveDaysForecast() {
     return this.geolocation.currentPosition$.pipe(
       switchMap(({ coords }) =>
-        this.getForecast(coords.latitude, coords.longitude),
-      ),
+        this.getForecast(coords.latitude, coords.longitude)
+      )
     );
   }
 }

@@ -1,19 +1,20 @@
-<div class="h-full flex flex-col bg-secondary-bg dark:bg-dark-secondary-bg">
+<div
+  class="h-full flex flex-col bg-secondary-bg transition-colors dark:bg-dark-secondary-bg dark:text-slate-50"
+>
   <div class="flex-0 h-16 flex items-center justify-between px-4 border-b-2">
     <div class="flex-0">
       <h2 class="text-xl">Geckosoft - Prova Tecnica</h2>
     </div>
 
     <div>
-      <input
-        id="light-switch"
-        type="checkbox"
-        [ngModel]="darkModeEnabled$ | async"
-        (ngModelChange)="darkModeEnabled$.next($event)"
-      />
-      <label for="light-switch" class="cursor-pointer"
-        >Switch to light / dark version</label
+      <button
+        class="flex items-center justify-center rounded-full p-2 shadow-md hover:shadow-sm active:shadow-sm cursor-pointer"
+        (click)="toggleDarkMode()"
       >
+        <ng-icon
+          [name]="(darkModeEnabled$ | async) ? 'bootstrapMoon' : 'bootstrapSun'"
+        ></ng-icon>
+      </button>
     </div>
   </div>
 
