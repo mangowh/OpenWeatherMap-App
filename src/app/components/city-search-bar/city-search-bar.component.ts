@@ -2,7 +2,15 @@ import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Output, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AutocompleteLibModule } from "angular-ng-autocomplete";
-import { CitiesService } from "../../services/cities.service";
+import { WeatherService } from "../../services/weather.service";
+import {
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  skipUntil,
+  skipWhile,
+  switchMap,
+} from "rxjs";
 
 @Component({
   selector: "app-city-search-bar",
@@ -12,11 +20,19 @@ import { CitiesService } from "../../services/cities.service";
   styleUrl: "./city-search-bar.component.scss",
 })
 export class CitySearchBarComponent {
-  inputValue = signal("");
+  @Output() citySelected = new EventEmitter<City>();
 
-  @Output() citySelected = new EventEmitter<{ city: string }>();
+  search$ = new BehaviorSubject("");
+  data$ = this.search$.pipe(
+    skipWhile((search) => search.length <= 0),
+    debounceTime(500),
+    distinctUntilChanged(),
+    switchMap((search) => this.weather.find(search))
+  );
 
-  cities$ = this.citiesService.getCities();
+  constructor(private weather: WeatherService) {}
 
-  constructor(private citiesService: CitiesService) {}
+  onInputChanged($event: string) {
+    this.search$.next($event ?? "");
+  }
 }

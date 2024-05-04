@@ -11,16 +11,17 @@
 </datalist> -->
 
 <ng-autocomplete
-  [data]="(cities$ | async) ?? []"
-  [searchKeyword]="'city'"
+  [data]="(data$ | async)?.list ?? []"
+  [searchKeyword]="'name'"
   [itemTemplate]="itemTemplate"
   [notFoundTemplate]="notFoundTemplate"
+  (inputChanged)="onInputChanged($event)"
   (selected)="citySelected.emit($event)"
 >
 </ng-autocomplete>
 
 <ng-template #itemTemplate let-item>
-  <span [innerHTML]="item.city"></span>
+  <span [innerHTML]="item.name"></span>
 </ng-template>
 
 <ng-template #notFoundTemplate let-notFound>

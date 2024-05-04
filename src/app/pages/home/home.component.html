@@ -1,6 +1,6 @@
 <div>
   <app-city-search-bar
-    (citySelected)="searchText$.next($event.city)"
+    (citySelected)="searchedCity$.next($event)"
   ></app-city-search-bar>
 </div>
 
@@ -39,16 +39,15 @@
         {{ weather.wind.speed }}
       </div>
     </div>
-    <div>
+    <div class="flex flex-col justify-center items-center">
       <img
+        [alt]="weather.weather[0].description | titlecase"
         [src]="
           'https://openweathermap.org/img/wn/' +
           weather.weather[0].icon +
-          '.png'
+          '@2x.png'
         "
       />
-
-      {{ weather.weather[0].description }}
     </div>
   </div>
 </div>

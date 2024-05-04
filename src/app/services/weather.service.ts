@@ -68,4 +68,11 @@ export class WeatherService {
       )
     );
   }
+
+  find(q: string) {
+    return this.http.get<FindResponse>(this.baseUrl + "/find", {
+      params: { q, appId: this.apiKey },
+      responseType: "json",
+    });
+  }
 }

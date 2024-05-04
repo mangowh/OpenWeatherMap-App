@@ -1,17 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, signal } from "@angular/core";
+import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgIconsModule } from "@ng-icons/core";
-import {
-  BehaviorSubject,
-  combineLatest,
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  switchMap,
-} from "rxjs";
+import { BehaviorSubject, combineLatest, map, of, switchMap } from "rxjs";
 import { CitySearchBarComponent } from "../../components/city-search-bar/city-search-bar.component";
-import { CitiesService } from "../../services/cities.service";
 import { WeatherService } from "../../services/weather.service";
 
 @Component({
@@ -27,25 +19,21 @@ export class HomeComponent {
   currentWeather$ = this.weather.getCurrentWeatherData();
   currentForecast$ = this.weather.getCurrentFiveDaysForecast();
 
-  searchText$ = new BehaviorSubject<string>("");
+  searchedCity$ = new BehaviorSubject<City | null>(null);
 
-  searchedWeather$ = this.searchText$.pipe(
-    debounceTime(500),
-    distinctUntilChanged(),
-    switchMap((search) => this.citiesService.getCities(search)),
-    map((res) => res[0]),
+  searchedWeather$ = this.searchedCity$.pipe(
     switchMap((city) =>
-      this.weather.getWeatherData(parseFloat(city.lat), parseFloat(city.lng))
+      city
+        ? this.weather.getWeatherData(city!.coord.lat, city!.coord.lon)
+        : of(null)
     )
   );
 
-  searchedForecast$ = this.searchText$.pipe(
-    debounceTime(500),
-    distinctUntilChanged(),
-    switchMap((search) => this.citiesService.getCities(search)),
-    map((res) => res[0]),
+  searchedForecast$ = this.searchedCity$.pipe(
     switchMap((city) =>
-      this.weather.getForecast(parseFloat(city.lat), parseFloat(city.lng))
+      city
+        ? this.weather.getForecast(city!.coord.lat, city!.coord.lon)
+        : of(null)
     )
   );
 
@@ -85,8 +73,5 @@ export class HomeComponent {
     map((res) => Object.entries(res))
   );
 
-  constructor(
-    private weather: WeatherService,
-    private citiesService: CitiesService
-  ) {}
+  constructor(private weather: WeatherService) {}
 }
