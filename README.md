@@ -1,4 +1,4 @@
-# Prova Tecnica Tambellini - Geckosoft
+# OpenWeather App
 
 ## Avvio in modalità produzione
 
