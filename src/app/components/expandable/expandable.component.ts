@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { NgIconsModule } from "@ng-icons/core";
 
 @Component({
@@ -10,7 +10,7 @@ import { NgIconsModule } from "@ng-icons/core";
   styleUrl: "./expandable.component.scss",
 })
 export class ExpandableComponent {
-  expanded = false;
+  @Input() expanded = false;
 
   toggle() {
     this.expanded = !this.expanded;

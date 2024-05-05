@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       {
         size: "1.5em",
       },
-      withExceptionLogger()
+      withExceptionLogger(),
     ),
     provideIcons({
       bootstrapMoon,

@@ -34,6 +34,18 @@ const redirectToToday: CanActivateFn = (
   return true;
 };
 
+const checkParams: CanActivateFn = (route, state): MaybeAsync<GuardResult> => {
+  const router = inject(Router);
+
+  if (route.queryParamMap.has("lat") && route.queryParamMap.has("lon")) {
+    return true;
+  }
+
+  // retry
+  router.navigate(["/"]);
+  return false;
+};
+
 export const routes: Routes = [
   {
     path: "",
@@ -43,11 +55,13 @@ export const routes: Routes = [
   },
   {
     path: "today",
+    canActivate: [checkParams],
     loadComponent: () =>
       import("./pages/today/today.component").then((c) => c.TodayComponent),
   },
   {
     path: "forecast",
+    canActivate: [checkParams],
     loadComponent: () =>
       import("./pages/forecast/forecast.component").then(
         (c) => c.ForecastComponent,

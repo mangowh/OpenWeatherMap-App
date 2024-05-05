@@ -1,27 +1,20 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { NgIconsModule } from "@ng-icons/core";
-import {
-  BehaviorSubject,
-  Observable,
-  combineLatest,
-  map,
-  of,
-  skipWhile,
-  switchMap,
-} from "rxjs";
+import { BehaviorSubject, Observable, map, skipWhile, switchMap } from "rxjs";
 import { CitySearchBarComponent } from "../../components/city-search-bar/city-search-bar.component";
 import { ExpandableComponent } from "../../components/expandable/expandable.component";
 import { LineChartComponent } from "../../components/line-chart/line-chart.component";
-import { DateToLocaleDateStringPipe } from "../../pipes/date-to-locale-date-string.pipe";
-import { WeatherService } from "../../services/weather.service";
-import { DateToLocaleTimeStringPipe } from "../../pipes/date-to-locale-time-string.pipe";
 import { OpenweatherIconComponent } from "../../components/openweather-icon/openweather-icon.component";
-import { ActivatedRoute } from "@angular/router";
+import { DateToLocaleDateStringPipe } from "../../pipes/date-to-locale-date-string.pipe";
+import { DateToLocaleTimeStringPipe } from "../../pipes/date-to-locale-time-string.pipe";
+import { WeatherService } from "../../services/weather.service";
+import { UtcTimestampToLocaleTimeStringPipe } from "../../pipes/utc-timestamp-to-locale-time-string.pipe";
 
 @Component({
-  selector: "app-home",
+  selector: "app-today",
   standalone: true,
   templateUrl: "./today.component.html",
   styleUrl: "./today.component.scss",
@@ -35,13 +28,10 @@ import { ActivatedRoute } from "@angular/router";
     DateToLocaleDateStringPipe,
     DateToLocaleTimeStringPipe,
     OpenweatherIconComponent,
+    UtcTimestampToLocaleTimeStringPipe,
   ],
 })
 export class TodayComponent {
-  currentDate = new Date();
-
-  searchedCity$ = new BehaviorSubject<City | null>(null);
-
   coords$: Observable<{ lat: number; lon: number } | null> =
     this.route.queryParamMap.pipe(
       map((params) => {
@@ -56,20 +46,20 @@ export class TodayComponent {
           lat: parseFloat(latString),
           lon: parseFloat(lonString),
         };
-      })
+      }),
     );
 
   weather$ = this.coords$.pipe(
     skipWhile((coords) => !coords),
-    switchMap((coords) => this.weather.getWeather(coords!.lat, coords!.lon))
+    switchMap((coords) => this.weather.getWeather(coords!.lat, coords!.lon)),
   );
 
   forecast$ = this.coords$.pipe(
     skipWhile((coords) => !coords),
-    switchMap((coords) => this.weather.getForecast(coords!.lat, coords!.lon))
+    switchMap((coords) => this.weather.getForecast(coords!.lat, coords!.lon)),
   );
 
-  currentForecastGroupedByDays$ = this.forecast$.pipe(
+  forecastGroupedByDays$ = this.forecast$.pipe(
     map((currentForecast) => {
       const list = currentForecast.list;
 
@@ -85,14 +75,18 @@ export class TodayComponent {
 
           return groups;
         },
-        {} as { [key: string]: (List & { time: string })[] }
+        {} as { [key: string]: (List & { time: string })[] },
       );
     }),
-    map((res) => Object.entries(res))
+    map((res) => Object.entries(res)),
+  );
+
+  todayForecast$ = this.forecastGroupedByDays$.pipe(
+    map((forecast) => forecast[0][1]),
   );
 
   constructor(
     private route: ActivatedRoute,
-    private weather: WeatherService
+    private weather: WeatherService,
   ) {}
 }

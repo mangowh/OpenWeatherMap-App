@@ -27,12 +27,12 @@
   </div>
 
   <div
-    class="md:px-36 px-16 h-12 bg-slate-800 bg-opacity-90 text-white border-b border-slate-200 cursor-pointer"
-    [routerLink]="['/']"
+    class="md:px-36 px-16 h-12 bg-slate-800 bg-opacity-90 text-white border-b border-slate-200flex sm:justify-normal justify-center"
   >
     <span
       *ngIf="currentWeather$ | async as currentWeather"
-      class="inline-flex h-full items-center border-r pr-2 border-slate-200"
+      class="inline-flex h-full items-center cursor-pointer select-none"
+      [routerLink]="['/']"
     >
       <app-openweather-icon
         [iconCode]="currentWeather.weather[0].icon"

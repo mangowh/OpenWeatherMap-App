@@ -12,8 +12,11 @@
           routerLinkActive
           #rla="routerLinkActive"
           queryParamsHandling="merge"
-          class="inline-block p-4 border-b-2 rounded-t-lg"
-          [ngClass]="{ 'font-bold': rla.isActive }"
+          class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+          [ngClass]="{
+            'font-bold': rla.isActive,
+            'border-gray-600': rla.isActive
+          }"
           type="button"
           role="tab"
           aria-selected="false"

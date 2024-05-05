@@ -11,20 +11,20 @@ import { SpinnerComponent } from "./components/spinner/spinner.component";
 import { OpenweatherIconComponent } from "./components/openweather-icon/openweather-icon.component";
 
 @Component({
-    selector: "app-root",
-    standalone: true,
-    templateUrl: "./app.component.html",
-    styleUrl: "./app.component.scss",
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        NgIconsModule,
-        CitySearchBarComponent,
-        NavigationTabsComponent,
-        SpinnerComponent,
-        OpenweatherIconComponent
-    ]
+  selector: "app-root",
+  standalone: true,
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    NgIconsModule,
+    CitySearchBarComponent,
+    NavigationTabsComponent,
+    SpinnerComponent,
+    OpenweatherIconComponent,
+  ],
 })
 export class AppComponent implements OnInit {
   currentWeather$ = this.weather.currentWeather$;
