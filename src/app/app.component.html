@@ -1,8 +1,8 @@
 <div
-  class="h-full flex flex-col bg-secondary-bg transition-colors dark:bg-dark-secondary-bg dark:text-slate-50"
+  class="h-full flex flex-col bg-slate-50 transition-colors dark:bg-slate-700 dark:text-white"
 >
   <div
-    class="flex-0 h-16 flex gap-6 items-center justify-between px-4 border-b-2"
+    class="flex-0 h-16 flex gap-6 items-center justify-between px-4 bg-slate-700 bg-opacity-90 text-white"
   >
     <div class="flex-0 sm:block hidden">
       <h2 class="text-xl">Geckosoft - Prova Tecnica</h2>
@@ -26,7 +26,33 @@
     </div>
   </div>
 
-  <div class="flex-1 overflow-auto pt-6 md:px-16 px-4 pb-4">
+  <div
+    class="md:px-36 px-16 h-12 bg-slate-800 bg-opacity-90 text-white border-b border-slate-200 cursor-pointer"
+    [routerLink]="['/']"
+  >
+    <span
+      *ngIf="currentWeather$ | async as currentWeather"
+      class="inline-flex h-full items-center border-r pr-2 border-slate-200"
+    >
+      <app-openweather-icon
+        [iconCode]="currentWeather.weather[0].icon"
+        [description]="currentWeather.weather[0].description"
+      ></app-openweather-icon>
+
+      <span>
+        {{ currentWeather.main.temp | number: "1.0-0" }}°
+        <span>
+          {{ currentWeather.name }} - {{ currentWeather.sys.country }}
+        </span>
+      </span>
+    </span>
+  </div>
+
+  <div>
+    <app-navigation-tabs></app-navigation-tabs>
+  </div>
+
+  <div class="flex-1 overflow-auto pt-6 md:px-36 px-4 pb-4">
     <router-outlet></router-outlet>
   </div>
 

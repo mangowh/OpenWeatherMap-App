@@ -14,11 +14,11 @@ import { WeatherService } from "../../services/weather.service";
 import { SpinnerComponent } from "../spinner/spinner.component";
 
 @Component({
-    selector: "app-city-search-bar",
-    standalone: true,
-    templateUrl: "./city-search-bar.component.html",
-    styleUrl: "./city-search-bar.component.scss",
-    imports: [CommonModule, FormsModule, AutocompleteLibModule, SpinnerComponent]
+  selector: "app-city-search-bar",
+  standalone: true,
+  templateUrl: "./city-search-bar.component.html",
+  styleUrl: "./city-search-bar.component.scss",
+  imports: [CommonModule, FormsModule, AutocompleteLibModule, SpinnerComponent],
 })
 export class CitySearchBarComponent {
   @Output() citySelected = new EventEmitter<City>();
@@ -32,7 +32,7 @@ export class CitySearchBarComponent {
     debounceTime(500),
     distinctUntilChanged(),
     switchMap((search) => this.weather.find(search)),
-    tap(() => this.loading$.next(false))
+    tap(() => this.loading$.next(false)),
   );
 
   constructor(private weather: WeatherService) {}

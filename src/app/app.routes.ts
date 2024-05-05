@@ -8,12 +8,11 @@ import {
 } from "@angular/router";
 import { tap } from "rxjs";
 import { LoadingComponent } from "./pages/loading/loading.component";
-import { TodayComponent } from "./pages/today/today.component";
 import { GeolocationService } from "./services/geolocation.service";
 
 const redirectToToday: CanActivateFn = (
   route,
-  state
+  state,
 ): MaybeAsync<GuardResult> => {
   const router = inject(Router);
   const geoloc = inject(GeolocationService);
@@ -27,8 +26,8 @@ const redirectToToday: CanActivateFn = (
           })
           .then(() => {
             sub.unsubscribe();
-          })
-      )
+          }),
+      ),
     )
     .subscribe();
 
@@ -44,7 +43,15 @@ export const routes: Routes = [
   },
   {
     path: "today",
-    component: TodayComponent,
+    loadComponent: () =>
+      import("./pages/today/today.component").then((c) => c.TodayComponent),
+  },
+  {
+    path: "forecast",
+    loadComponent: () =>
+      import("./pages/forecast/forecast.component").then(
+        (c) => c.ForecastComponent,
+      ),
   },
   { path: "**", pathMatch: "full", redirectTo: "" },
 ];

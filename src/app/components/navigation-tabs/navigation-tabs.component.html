@@ -1,0 +1,26 @@
+<div class="mb-4 border-b border-gray-200">
+  <ul
+    class="flex justify-center -mb-px text-sm font-medium text-center"
+    id="default-tab"
+    data-tabs-toggle="#default-tab-content"
+    role="tablist"
+  >
+    @for (tab of tabs; track $index) {
+      <li class="me-2" role="presentation">
+        <button
+          [routerLink]="[tab.route]"
+          routerLinkActive
+          #rla="routerLinkActive"
+          queryParamsHandling="merge"
+          class="inline-block p-4 border-b-2 rounded-t-lg"
+          [ngClass]="{ 'font-bold': rla.isActive }"
+          type="button"
+          role="tab"
+          aria-selected="false"
+        >
+          {{ tab.name }}
+        </button>
+      </li>
+    }
+  </ul>
+</div>

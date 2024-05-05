@@ -15,10 +15,22 @@ export class WeatherService {
 
   defaultLang = navigator.language.split("-")[0] ?? "it";
 
+  currentWeather$ = this.geolocation.currentPosition$.pipe(
+    switchMap(({ coords }) =>
+      this.getWeather(coords.latitude, coords.longitude),
+    ),
+  );
+
+  currentForecast$ = this.geolocation.currentPosition$.pipe(
+    switchMap(({ coords }) =>
+      this.getForecast(coords.latitude, coords.longitude),
+    ),
+  );
+
   constructor(
     private http: HttpClient,
     private cache: CacheService,
-    private geolocation: GeolocationService
+    private geolocation: GeolocationService,
   ) {}
 
   getWeather(lat: number, lon: number, lang: string = this.defaultLang) {
@@ -36,7 +48,7 @@ export class WeatherService {
       })
       .pipe(
         tap((res) => this.cache.set("weather", res)),
-        catchError((err) => throwError(() => err))
+        catchError((err) => throwError(() => err)),
       );
   }
 
@@ -55,24 +67,8 @@ export class WeatherService {
       })
       .pipe(
         tap((res) => this.cache.set("forecast", res)),
-        catchError((err) => throwError(() => err))
+        catchError((err) => throwError(() => err)),
       );
-  }
-
-  getCurrentWeatherData() {
-    return this.geolocation.currentPosition$.pipe(
-      switchMap(({ coords }) =>
-        this.getWeather(coords.latitude, coords.longitude)
-      )
-    );
-  }
-
-  getCurrentFiveDaysForecast() {
-    return this.geolocation.currentPosition$.pipe(
-      switchMap(({ coords }) =>
-        this.getForecast(coords.latitude, coords.longitude)
-      )
-    );
   }
 
   find(q: string) {

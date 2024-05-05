@@ -1,11 +1,19 @@
-<div class="ng-autocomplete !w-full !shadow-sm !text-center">
+<div
+  class="ng-autocomplete !w-full !shadow-sm !text-center text-black dark:text-black"
+>
   <ng-autocomplete
     [data]="(data$ | async)?.list ?? []"
     [searchKeyword]="'name'"
+    [historyIdentifier]="'id'"
+    [debounceTime]="50"
+    [minQueryLength]="3"
     [placeholder]="'Cerca città'"
     [itemTemplate]="itemTemplate"
     [notFoundTemplate]="notFoundTemplate"
     (inputChanged)="onInputChanged($event)"
+    [focusFirst]="true"
+    [historyHeading]="'Ricerce recenti'"
+    [historyListMaxNumber]="5"
     (selected)="citySelected.emit($event)"
   >
   </ng-autocomplete>

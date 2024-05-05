@@ -5,27 +5,37 @@ import { Router, RouterModule } from "@angular/router";
 import { NgIconsModule } from "@ng-icons/core";
 import { BehaviorSubject } from "rxjs";
 import { CitySearchBarComponent } from "./components/city-search-bar/city-search-bar.component";
+import { NavigationTabsComponent } from "./components/navigation-tabs/navigation-tabs.component";
+import { WeatherService } from "./services/weather.service";
+import { SpinnerComponent } from "./components/spinner/spinner.component";
+import { OpenweatherIconComponent } from "./components/openweather-icon/openweather-icon.component";
 
 @Component({
-  selector: "app-root",
-  standalone: true,
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    NgIconsModule,
-    CitySearchBarComponent,
-  ],
+    selector: "app-root",
+    standalone: true,
+    templateUrl: "./app.component.html",
+    styleUrl: "./app.component.scss",
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        NgIconsModule,
+        CitySearchBarComponent,
+        NavigationTabsComponent,
+        SpinnerComponent,
+        OpenweatherIconComponent
+    ]
 })
 export class AppComponent implements OnInit {
+  currentWeather$ = this.weather.currentWeather$;
+
   darkModeEnabled$ = new BehaviorSubject(false);
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
-    private router: Router
+    private router: Router,
+    private weather: WeatherService,
   ) {
     this.darkModeEnabled$.subscribe((darkModeEnabled) => {
       if (darkModeEnabled) {
@@ -38,11 +48,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const darkModePreference = window.matchMedia(
-      "(prefers-color-scheme: dark)"
+      "(prefers-color-scheme: dark)",
     );
 
     darkModePreference.addEventListener("change", (e) =>
-      this.darkModeEnabled$.next(e.matches)
+      this.darkModeEnabled$.next(e.matches),
     );
 
     if (
