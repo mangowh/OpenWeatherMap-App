@@ -21,7 +21,7 @@ export class WeatherService {
     private geolocation: GeolocationService
   ) {}
 
-  getWeatherData(lat: number, lon: number, lang: string = this.defaultLang) {
+  getWeather(lat: number, lon: number, lang: string = this.defaultLang) {
     if (isDevMode()) {
       const found = this.cache.get<WeatherResponse>("weather");
       if (found) {
@@ -62,7 +62,7 @@ export class WeatherService {
   getCurrentWeatherData() {
     return this.geolocation.currentPosition$.pipe(
       switchMap(({ coords }) =>
-        this.getWeatherData(coords.latitude, coords.longitude)
+        this.getWeather(coords.latitude, coords.longitude)
       )
     );
   }

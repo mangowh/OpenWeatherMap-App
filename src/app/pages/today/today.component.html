@@ -5,7 +5,7 @@
 </div>
 
 <div
-  *ngIf="selectedWeather$ | async as weather"
+  *ngIf="weather$ | async as weather"
   class="flex flex-col border mt-6 rounded-lg overflow-hidden shadow transition-colors bg-gradient-to-tr from-cyan-500 to-blue-300 dark:from-cyan-800 dark:to-blue-700 text-white"
 >
   <div
@@ -62,7 +62,7 @@
 >
   <h2 class="font-bold text-xl my-2">
     Previsioni meteo per i prossimi 5 gioni -
-    {{ (currentForecast$ | async)?.city?.name }}
+    {{ (forecast$ | async)?.city?.name }}
   </h2>
 
   <div class="rounded-lg overflow-hidden border shadow">
@@ -96,6 +96,9 @@
         </div>
 
         <div content class="w-full md:h-96 h-60 py-4 md:px-16 px-4">
+          <h4 class="font-semibold mb-2">
+            Andamento temperature della giornata
+          </h4>
           <app-line-chart [data]="dayEntries[1]"></app-line-chart>
         </div>
       </app-expandable>
