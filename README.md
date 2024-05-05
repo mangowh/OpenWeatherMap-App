@@ -1,27 +1,36 @@
-# App
+# Prova Tecnica Tambellini - Geckosoft
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.5.
+## Avvio in modalità produzione
 
-## Development server
+Requisiti:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Docker
+- docker-compose
 
-## Code scaffolding
+```
+docker compose up
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Dopo la procedura di build delle immagini Docker, l'applicativo sarà disponbile a http://127.0.0.1:8080
 
-## Build
+## Avvio in modalità sviluppo
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Requisiti:
 
-## Running unit tests
+- Node.js
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+npm run start
+```
 
-## Running end-to-end tests
+N.B. in questa modalità è attivo un sistema di cache lato applicazione delle risposte all'API di OpenWeatherMap. I risultati di meteo e previsioni saranno sempre gli stessi finchè non si ripulisce il localStorage!
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Struttura di progetto
 
-## Further help
+Il progetto segue la classica struttura generata da `@angular-cli`, dove all'interno di `app` ho categorizzato i vari file per tipologia.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Ho aggiunto le varie configurazione di Docker nella cartella principale del progetto, inoltre a una configurazione nginx, che ho usato come immagine base.
+
+Inoltre, per lo stile faccio uso di [Tailwind.css](https://tailwindcss.com/), configurato in `tailwind.config.js`.
+
+Per le icone ho scelto le [Bootstrap Icons](https://icons.getbootstrap.com/), e per i grafici [Chart.js](https://www.chartjs.org/)
