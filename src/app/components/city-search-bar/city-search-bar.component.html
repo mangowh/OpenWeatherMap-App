@@ -1,6 +1,4 @@
-<div
-  class="ng-autocomplete !w-full !rounded-full border !shadow-sm !overflow-hidden !text-center"
->
+<div class="ng-autocomplete !w-full !shadow-sm !text-center">
   <ng-autocomplete
     [data]="(data$ | async)?.list ?? []"
     [searchKeyword]="'name'"
@@ -13,7 +11,7 @@
   </ng-autocomplete>
 
   <ng-template #itemTemplate let-item>
-    <span [innerHTML]="item.name"></span>
+    <span [innerHTML]="item.name"></span> - <span>{{ item.sys.country }}</span>
   </ng-template>
 
   <ng-template #notFoundTemplate let-notFound>
