@@ -1,12 +1,20 @@
 <div
   class="h-full flex flex-col bg-secondary-bg transition-colors dark:bg-dark-secondary-bg dark:text-slate-50"
 >
-  <div class="flex-0 h-16 flex items-center justify-between px-4 border-b-2">
-    <div class="flex-0">
+  <div
+    class="flex-0 h-16 flex gap-6 items-center justify-between px-4 border-b-2"
+  >
+    <div class="flex-0 sm:block hidden">
       <h2 class="text-xl">Geckosoft - Prova Tecnica</h2>
     </div>
 
-    <div>
+    <div class="flex-1">
+      <app-city-search-bar
+        (citySelected)="onCitySelected($event)"
+      ></app-city-search-bar>
+    </div>
+
+    <div class="flex-0">
       <button
         class="flex items-center justify-center rounded-full p-2 shadow-md hover:shadow-sm active:shadow-sm cursor-pointer"
         (click)="toggleDarkMode()"
@@ -22,10 +30,13 @@
     <router-outlet></router-outlet>
   </div>
 
-  <div class="flex-0 h-24 flex justify-center items-center px-4 border-t-2">
-    <div class="flex-0">
+  <div class="flex-0 h-16 flex justify-center items-center px-4 border-t-2">
+    <div class="flex-0 text-sm font-light">
       Made by
-      <a href="https://stefanotambellini.it" target="_blank"
+      <a
+        href="https://stefanotambellini.it"
+        target="_blank"
+        class="bg-gradient-to-r from-red-600 via-orange-500 to-indigo-400 inline-block text-transparent bg-clip-text"
         >Stefano Tambellini</a
       >
     </div>

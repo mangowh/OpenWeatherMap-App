@@ -1,15 +1,9 @@
-<div>
-  <app-city-search-bar
-    (citySelected)="searchedCity$.next($event)"
-  ></app-city-search-bar>
-</div>
-
 <div
   *ngIf="weather$ | async as weather"
-  class="flex flex-col border mt-6 rounded-lg overflow-hidden shadow transition-colors bg-gradient-to-tr from-cyan-500 to-blue-300 dark:from-cyan-800 dark:to-blue-700 text-white"
+  class="flex flex-col border rounded-lg overflow-hidden shadow transition-colors bg-gradient-to-tr from-cyan-500 to-blue-300 dark:from-cyan-800 dark:to-blue-700 text-white"
 >
   <div
-    class="flex-0 xl:px-16 md:px-8 md:py-4 p-2 md:text-2xl bg-slate-700 bg-opacity-90"
+    class="flex-0 xl:px-16 sm:px-8 sm:py-4 p-2 sm:text-2xl bg-slate-700 bg-opacity-90"
   >
     <div>
       <span class="font-bold">{{ weather.name }}</span> alle
@@ -22,18 +16,18 @@
     </div>
   </div>
 
-  <div class="flex-1 flex xl:px-16 md:px-8 md:py-4 p-2">
+  <div class="flex-1 flex xl:px-16 sm:px-8 sm:py-4 p-2">
     <div class="flex-1">
-      <div class="font-bold md:text-7xl text-5xl">{{ weather.main.temp }}°</div>
+      <div class="font-bold sm:text-7xl text-5xl">{{ weather.main.temp }}°</div>
       <span class="font-semibold text-2xl">{{
         weather.weather[0].description | titlecase
       }}</span>
-      <div class="md:text-lg md:mt-2">
+      <div class="sm:text-lg sm:mt-2">
         <p>
           Max: {{ weather.main.temp_max }}° - Min: {{ weather.main.temp_min }}°
         </p>
 
-        <p class="md:mt-4 mt-2 flex items-center gap-2">
+        <p class="sm:mt-4 mt-2 flex items-center gap-2">
           <ng-icon name="bootstrapDroplet"></ng-icon>
 
           <span> {{ weather.main.humidity }} % </span>
@@ -71,7 +65,7 @@
       class="w-full flex flex-col gap-4"
     >
       <app-expandable>
-        <div header class="flex items-center py-2 md:px-6 px-2">
+        <div header class="flex items-center py-2 sm:px-6 px-2">
           <div class="flex-0">
             <span class="font-bold">
               {{ dayEntries[0] | dateToLocaleDateString }}
@@ -95,10 +89,7 @@
           </div>
         </div>
 
-        <div content class="w-full md:h-96 h-60 py-4 md:px-16 px-4">
-          <h4 class="font-semibold mb-2">
-            Andamento temperature della giornata
-          </h4>
+        <div content class="w-full sm:h-96 h-60 py-4 sm:px-16 px-4">
           <app-line-chart [data]="dayEntries[1]"></app-line-chart>
         </div>
       </app-expandable>

@@ -1,16 +1,23 @@
 import { CommonModule, DOCUMENT } from "@angular/common";
 import { Component, Inject, OnInit, Renderer2 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { NgIconsModule } from "@ng-icons/core";
 import { BehaviorSubject } from "rxjs";
+import { CitySearchBarComponent } from "./components/city-search-bar/city-search-bar.component";
 
 @Component({
   selector: "app-root",
   standalone: true,
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
-  imports: [CommonModule, RouterModule, FormsModule, NgIconsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    NgIconsModule,
+    CitySearchBarComponent,
+  ],
 })
 export class AppComponent implements OnInit {
   darkModeEnabled$ = new BehaviorSubject(false);
@@ -18,6 +25,7 @@ export class AppComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
+    private router: Router
   ) {
     this.darkModeEnabled$.subscribe((darkModeEnabled) => {
       if (darkModeEnabled) {
@@ -30,11 +38,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const darkModePreference = window.matchMedia(
-      "(prefers-color-scheme: dark)",
+      "(prefers-color-scheme: dark)"
     );
 
     darkModePreference.addEventListener("change", (e) =>
-      this.darkModeEnabled$.next(e.matches),
+      this.darkModeEnabled$.next(e.matches)
     );
 
     if (
@@ -49,5 +57,11 @@ export class AppComponent implements OnInit {
 
   toggleDarkMode() {
     this.darkModeEnabled$.next(!this.darkModeEnabled$.value);
+  }
+
+  onCitySelected(selectedCity: City) {
+    this.router.navigate(["today"], {
+      queryParams: { lat: selectedCity.coord.lat, lon: selectedCity.coord.lon },
+    });
   }
 }

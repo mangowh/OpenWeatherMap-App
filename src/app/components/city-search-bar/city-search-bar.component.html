@@ -15,6 +15,12 @@
   </ng-template>
 
   <ng-template #notFoundTemplate let-notFound>
-    <div [innerHTML]="notFound"></div>
+    @if (loading$ | async) {
+      <div class="flex justify-center">
+        <app-spinner></app-spinner>
+      </div>
+    } @else {
+      <div [innerHTML]="notFound"></div>
+    }
   </ng-template>
 </div>
