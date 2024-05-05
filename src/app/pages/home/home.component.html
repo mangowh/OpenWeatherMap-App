@@ -6,9 +6,11 @@
 
 <div
   *ngIf="selectedWeather$ | async as weather"
-  class="flex flex-col border mt-4 rounded-lg overflow-hidden shadow-sm bg-blue-300 text-white"
+  class="flex flex-col border mt-6 rounded-lg overflow-hidden shadow transition-colors bg-gradient-to-tr from-cyan-500 to-blue-300 dark:from-cyan-800 dark:to-blue-700 text-white"
 >
-  <div class="flex-0 p-2 bg-slate-700 bg-opacity-90">
+  <div
+    class="flex-0 xl:px-16 md:px-8 md:py-4 p-2 md:text-2xl bg-slate-700 bg-opacity-90"
+  >
     <div>
       <span class="font-bold">{{ weather.name }}</span> alle
       {{
@@ -20,72 +22,83 @@
     </div>
   </div>
 
-  <div class="flex-1 flex p-2">
+  <div class="flex-1 flex xl:px-16 md:px-8 md:py-4 p-2">
     <div class="flex-1">
-      <div class="font-bold text-4xl">{{ weather.main.temp }}°</div>
+      <div class="font-bold md:text-7xl text-5xl">{{ weather.main.temp }}°</div>
+      <span class="font-semibold text-2xl">{{
+        weather.weather[0].description | titlecase
+      }}</span>
+      <div class="md:text-lg md:mt-2">
+        <p>
+          Max: {{ weather.main.temp_max }}° - Min: {{ weather.main.temp_min }}°
+        </p>
 
-      <div>
-        Max: {{ weather.main.temp_max }}° - Min: {{ weather.main.temp_min }}°
-      </div>
+        <p class="md:mt-4 mt-2 flex items-center gap-2">
+          <ng-icon name="bootstrapDroplet"></ng-icon>
 
-      <div>
-        <ng-icon name="bootstrapDroplet"></ng-icon>
-        {{ weather.main.humidity }}%
-      </div>
+          <span> {{ weather.main.humidity }} % </span>
+        </p>
 
-      <div>
-        <ng-icon name="bootstrapWind"></ng-icon>
+        <p class="mt-2 flex items-center gap-2">
+          <ng-icon name="bootstrapWind"></ng-icon>
 
-        {{ weather.wind.speed }}
+          <span> {{ weather.wind.speed }} m/s </span>
+        </p>
       </div>
     </div>
     <div class="flex flex-col justify-center items-center">
-      <img
-        [alt]="weather.weather[0].description | titlecase"
-        [src]="
-          'https://openweathermap.org/img/wn/' +
-          weather.weather[0].icon +
-          '@2x.png'
-        "
-      />
+      <app-openweather-icon
+        [iconCode]="weather.weather[0].icon"
+        [description]="weather.weather[0].description"
+        [size]="4"
+      ></app-openweather-icon>
     </div>
   </div>
 </div>
 
-<div *ngIf="currentForecastGroupedByDays$ | async as currentForecast">
-  Previsioni meteo - {{ (currentForecast$ | async)?.city?.name }}
+<div
+  *ngIf="currentForecastGroupedByDays$ | async as currentForecast"
+  class="mt-4"
+>
+  <h2 class="font-bold text-xl my-2">
+    Previsioni meteo per i prossimi 5 gioni -
+    {{ (currentForecast$ | async)?.city?.name }}
+  </h2>
 
-  <div>
+  <div class="rounded-lg overflow-hidden border shadow">
     <div
       *ngFor="let dayEntries of currentForecast"
-      class="w-full flex-col gap-4 border-b-2"
+      class="w-full flex flex-col gap-4"
     >
-      <div class="flex-0 flex">
-        <div class="flex-0 w-4">
-          {{ dayEntries[0] | dateToLocale }}
-        </div>
+      <app-expandable>
+        <div header class="flex items-center py-2 md:px-6 px-2">
+          <div class="flex-0">
+            <span class="font-bold">
+              {{ dayEntries[0] | dateToLocaleDateString }}
+            </span>
+          </div>
 
-        <div class="flex-1 flex flex-wrap">
-          <div
-            *ngFor="let entry of dayEntries[1]"
-            class="flex justify-center items-center"
-          >
-            <div>{{ entry.dt_txt }} :</div>
-            <img
-              [alt]="entry.weather[0].description | titlecase"
-              [src]="
-                'https://openweathermap.org/img/wn/' +
-                entry.weather[0].icon +
-                '.png'
-              "
-            />
+          <div class="flex-1 flex flex-wrap justify-evenly">
+            <div
+              *ngFor="let entry of dayEntries[1]"
+              class="flex flex-col justify-center items-center"
+            >
+              <div class="text-sm">
+                {{ entry.dt_txt | dateToLocaleTimeString }}
+              </div>
+
+              <app-openweather-icon
+                [iconCode]="entry.weather[0].icon"
+                [description]="entry.weather[0].description"
+              ></app-openweather-icon>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="flex-1">
-        <app-line-chart [data]="dayEntries[1]"></app-line-chart>
-      </div>
+        <div content class="w-full md:h-96 h-60 py-4 md:px-16 px-4">
+          <app-line-chart [data]="dayEntries[1]"></app-line-chart>
+        </div>
+      </app-expandable>
     </div>
   </div>
 </div>

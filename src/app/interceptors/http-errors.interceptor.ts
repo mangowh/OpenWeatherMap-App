@@ -14,14 +14,14 @@ export const httpErrorsInterceptor: HttpInterceptorFn = (req, next) => {
 
           notificationService.showAlert(
             "Errore: permessi non sufficienti",
-            "Errore di autorizzazione"
+            "Errore di autorizzazione",
           );
         } else {
           console.error("HTTP error:", err);
 
           notificationService.showAlert(
             "Errore: riprovare più tardi",
-            "Errore HTTP"
+            "Errore HTTP",
           );
         }
       } else {
@@ -29,6 +29,6 @@ export const httpErrorsInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
       return throwError(() => err);
-    })
+    }),
   );
 };

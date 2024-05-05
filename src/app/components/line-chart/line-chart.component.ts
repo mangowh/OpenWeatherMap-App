@@ -26,15 +26,16 @@ export class LineChartComponent implements AfterViewInit {
       type: "line",
       options: {
         layout: {
-          padding: 20,
+          autoPadding: true,
         },
+        maintainAspectRatio: false,
       },
       data: {
         labels: this.data.map((row) =>
           new Date(row.dt_txt).toLocaleTimeString(navigator.language, {
             hour: "2-digit",
             minute: "2-digit",
-          }),
+          })
         ),
         datasets: [
           {

@@ -7,6 +7,8 @@ import {
   bootstrapSun,
   bootstrapWind,
   bootstrapX,
+  bootstrapChevronDown,
+  bootstrapChevronUp,
 } from "@ng-icons/bootstrap-icons";
 import {
   provideIcons,
@@ -25,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       {
         size: "1.5em",
       },
-      withExceptionLogger(),
+      withExceptionLogger()
     ),
     provideIcons({
       bootstrapMoon,
@@ -33,6 +35,8 @@ export const appConfig: ApplicationConfig = {
       bootstrapDroplet,
       bootstrapWind,
       bootstrapX,
+      bootstrapChevronDown,
+      bootstrapChevronUp,
     }),
     importProvidersFrom(AutocompleteLibModule),
   ],

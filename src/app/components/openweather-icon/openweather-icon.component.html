@@ -1,0 +1,9 @@
+<img
+  class="drop-shadow"
+  [src]="
+    'https://openweathermap.org/img/wn/' +
+    iconCode +
+    (size ? '@' + size + 'x.png' : '.png')
+  "
+  [alt]="description | titlecase"
+/>

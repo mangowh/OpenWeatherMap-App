@@ -1,29 +1,22 @@
-<!-- <input
-  list="countries"
-  [(ngModel)]="inputValue"
-  placeholder="Insert your location here"
-  (keyup.enter)="citySelected.emit(inputValue())"
-/>
-<datalist id="countries">
-  <option *ngFor="let item of cities$ | async" [value]="item.city">
-    {{ item.lat }} - {{ item.lng }}
-  </option>
-</datalist> -->
-
-<ng-autocomplete
-  [data]="(data$ | async)?.list ?? []"
-  [searchKeyword]="'name'"
-  [itemTemplate]="itemTemplate"
-  [notFoundTemplate]="notFoundTemplate"
-  (inputChanged)="onInputChanged($event)"
-  (selected)="citySelected.emit($event)"
+<div
+  class="ng-autocomplete !w-full !rounded-full border !shadow-sm !overflow-hidden !text-center"
 >
-</ng-autocomplete>
+  <ng-autocomplete
+    [data]="(data$ | async)?.list ?? []"
+    [searchKeyword]="'name'"
+    [placeholder]="'Cerca città'"
+    [itemTemplate]="itemTemplate"
+    [notFoundTemplate]="notFoundTemplate"
+    (inputChanged)="onInputChanged($event)"
+    (selected)="citySelected.emit($event)"
+  >
+  </ng-autocomplete>
 
-<ng-template #itemTemplate let-item>
-  <span [innerHTML]="item.name"></span>
-</ng-template>
+  <ng-template #itemTemplate let-item>
+    <span [innerHTML]="item.name"></span>
+  </ng-template>
 
-<ng-template #notFoundTemplate let-notFound>
-  <div [innerHTML]="notFound"></div>
-</ng-template>
+  <ng-template #notFoundTemplate let-notFound>
+    <div [innerHTML]="notFound"></div>
+  </ng-template>
+</div>
