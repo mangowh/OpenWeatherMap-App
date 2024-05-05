@@ -8,6 +8,8 @@
     <div>
       <span class="font-bold">{{ weather.name }}</span> alle
       {{ weather.dt | utcTimestampToLocaleTimeString }}
+
+      {{ weather.timezone | utcTimezoneSecondsToTimezoneString }}
     </div>
   </div>
 
@@ -52,15 +54,19 @@
   <div
     class="py-2 sm:px-6 px-2 border rounded bg-white dark:bg-slate-800 bg-opacity-90"
   >
-    <h2 class="font-bold text-xl my-2">
+    <h2 class="font-bold text-xl my-4">
       Previsioni per il resto della giornata -
       {{ (forecast$ | async)?.city?.name }}
     </h2>
 
-    @for (hourlyForecast of todayForecast; track $index; let last = $last) {
+    @for (
+      hourlyForecast of todayForecast;
+      track $index;
+      let first = $first, last = $last
+    ) {
       <div
         class="flex justify-around items-center"
-        [ngClass]="{ 'border-b': !last }"
+        [ngClass]="{ 'border-t': first, 'border-b': !last }"
       >
         <div class="text-2xl">
           {{ hourlyForecast.dt_txt | dateToLocaleTimeString }}

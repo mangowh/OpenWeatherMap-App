@@ -1,16 +1,24 @@
 <div
-  *ngIf="forecastGroupedByDays$ | async as currentForecast"
-  class="py-2 sm:px-6 px-2 border rounded bg-white dark:bg-slate-800 bg-opacity-90"
+  *ngIf="forecastGroupedByDays$ | async as currentForecast; else loader"
+  class="pt-2 sm:px-6 px-2 border rounded bg-white dark:bg-slate-800 bg-opacity-90"
 >
-  <h2 class="font-bold text-xl my-2">
+  <h2 class="font-bold text-xl my-4">
     Previsioni meteo per i prossimi 5 giorni -
     {{ (forecast$ | async)?.city?.name }}
   </h2>
 
-  @for (dayEntries of currentForecast; track $index; let first = $first) {
-    <div class="w-full flex flex-col gap-4">
+  @for (
+    dayEntries of currentForecast;
+    track $index;
+    let first = $first,
+    last = $last
+  ) {
+    <div
+      class="w-full flex flex-col gap-4"
+      [ngClass]="{ 'border-t': first, 'border-b': !last }"
+    >
       <app-expandable [expanded]="first">
-        <div header class="flex items-center py-2 sm:px-6 px-2">
+        <div header class="flex items-center py-4 sm:px-6 px-2">
           <div class="flex-0">
             <span class="font-bold">
               {{ dayEntries[0] | dateToLocaleDateString }}
@@ -18,19 +26,18 @@
           </div>
 
           <div class="flex-1 flex flex-wrap justify-evenly">
-            <div
-              *ngFor="let entry of dayEntries[1]"
-              class="flex flex-col justify-center items-center"
-            >
-              <div class="text-sm">
-                {{ entry.dt_txt | dateToLocaleTimeString }}
-              </div>
+            @for (entry of dayEntries[1]; track $index) {
+              <div class="flex flex-col justify-center items-center">
+                <div class="text-sm">
+                  {{ entry.dt_txt | dateToLocaleTimeString }}
+                </div>
 
-              <app-openweather-icon
-                [iconCode]="entry.weather[0].icon"
-                [description]="entry.weather[0].description"
-              ></app-openweather-icon>
-            </div>
+                <app-openweather-icon
+                  [iconCode]="entry.weather[0].icon"
+                  [description]="entry.weather[0].description"
+                ></app-openweather-icon>
+              </div>
+            }
           </div>
         </div>
 
@@ -41,3 +48,7 @@
     </div>
   }
 </div>
+
+<ng-template #loader>
+  <app-spinner></app-spinner>
+</ng-template>

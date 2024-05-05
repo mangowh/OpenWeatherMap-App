@@ -8,20 +8,22 @@ import { OpenweatherIconComponent } from "../../components/openweather-icon/open
 import { DateToLocaleTimeStringPipe } from "../../pipes/date-to-locale-time-string.pipe";
 import { LineChartComponent } from "../../components/line-chart/line-chart.component";
 import { CommonModule } from "@angular/common";
+import { SpinnerComponent } from "../../components/spinner/spinner.component";
 
 @Component({
-  selector: "app-forecast",
-  standalone: true,
-  templateUrl: "./forecast.component.html",
-  styleUrl: "./forecast.component.scss",
-  imports: [
-    CommonModule,
-    ExpandableComponent,
-    DateToLocaleDateStringPipe,
-    OpenweatherIconComponent,
-    DateToLocaleTimeStringPipe,
-    LineChartComponent,
-  ],
+    selector: "app-forecast",
+    standalone: true,
+    templateUrl: "./forecast.component.html",
+    styleUrl: "./forecast.component.scss",
+    imports: [
+        CommonModule,
+        ExpandableComponent,
+        DateToLocaleDateStringPipe,
+        OpenweatherIconComponent,
+        DateToLocaleTimeStringPipe,
+        LineChartComponent,
+        SpinnerComponent
+    ]
 })
 export class ForecastComponent {
   coords$: Observable<{ lat: number; lon: number } | null> =

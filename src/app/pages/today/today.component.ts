@@ -3,15 +3,16 @@ import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { NgIconsModule } from "@ng-icons/core";
-import { BehaviorSubject, Observable, map, skipWhile, switchMap } from "rxjs";
+import { Observable, map, skipWhile, switchMap } from "rxjs";
 import { CitySearchBarComponent } from "../../components/city-search-bar/city-search-bar.component";
 import { ExpandableComponent } from "../../components/expandable/expandable.component";
 import { LineChartComponent } from "../../components/line-chart/line-chart.component";
 import { OpenweatherIconComponent } from "../../components/openweather-icon/openweather-icon.component";
 import { DateToLocaleDateStringPipe } from "../../pipes/date-to-locale-date-string.pipe";
 import { DateToLocaleTimeStringPipe } from "../../pipes/date-to-locale-time-string.pipe";
-import { WeatherService } from "../../services/weather.service";
 import { UtcTimestampToLocaleTimeStringPipe } from "../../pipes/utc-timestamp-to-locale-time-string.pipe";
+import { UtcTimezoneSecondsToTimezoneStringPipe } from "../../pipes/utc-timezone-seconds-to-timezone-string.pipe";
+import { WeatherService } from "../../services/weather.service";
 
 @Component({
   selector: "app-today",
@@ -29,6 +30,7 @@ import { UtcTimestampToLocaleTimeStringPipe } from "../../pipes/utc-timestamp-to
     DateToLocaleTimeStringPipe,
     OpenweatherIconComponent,
     UtcTimestampToLocaleTimeStringPipe,
+    UtcTimezoneSecondsToTimezoneStringPipe,
   ],
 })
 export class TodayComponent {

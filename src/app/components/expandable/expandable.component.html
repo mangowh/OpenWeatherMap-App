@@ -1,6 +1,6 @@
 <div class="flex flex-col">
   <div
-    class="flex-0 flex items-center min-h-16 border-b hover:bg-slate-100 dark:hover:bg-slate-600 cursor-pointer select-none"
+    class="flex-0 flex items-center min-h-16 cursor-pointer select-none"
     (click)="toggle()"
   >
     <div class="flex-1 h-full overflow-hidden">
@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <div *ngIf="expanded" class="flex-1 border-b min-h-10">
+  <div *ngIf="expanded" class="flex-1 min-h-10">
     <ng-content select="[content]"></ng-content>
   </div>
 </div>
