@@ -1,6 +1,6 @@
 # OpenWeatherMap App
 
-Servizio che mostra i dati recuperati da https://openweathermap.org/
+Applicazione web che mostra i dati recuperati da https://openweathermap.org/
 
 ## Avvio in modalità produzione
 
